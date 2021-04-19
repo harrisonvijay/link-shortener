@@ -1,6 +1,22 @@
+// To avoid form resubmission dialog box
 if (window.history.replaceState) {
     window.history.replaceState(null, null, window.location.href);
 }
+
+// To click Shorten button when enter key is pressed
+document.getElementById("full-link").addEventListener("keyup", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("shorten-btn").click();
+    }
+});
+
+document.getElementById("custom-id").addEventListener("keyup", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("shorten-btn").click();
+    }
+});
 
 function copyText() {
     var linkObj = document.getElementById("short-link");
@@ -31,7 +47,8 @@ function handleShortenClick() {
         }
     };
     const link = document.getElementById("full-link").value;
-    xhttp.open("GET", "/api/short?link=" + link);
+    const custom = document.getElementById("custom-id").value;
+    xhttp.open("GET", "/api/short?link=" + link + "&custom=" + custom);
     xhttp.send();
 }
 

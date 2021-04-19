@@ -23,7 +23,9 @@
         <div class="page-item-2 col-12 col-sm-12 col-md-12 col-lg-6">
             <div class="input-section">
                 <input type="text" id="full-link" placeholder="Paste your full link here" autocomplete="off">
-                <button class="btn btn-large" onclick="handleShortenClick()">Shorten</button>
+                <input type="text" id="custom-id" placeholder="Custom ID (optional)" autocomplete="off">
+                <button type="submit" id="shorten-btn" class="btn btn-large"
+                    onclick="handleShortenClick()">Shorten</button>
             </div>
             <div id="content"></div>
         </div>

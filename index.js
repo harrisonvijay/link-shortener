@@ -34,17 +34,38 @@ function isValidHttpUrl(string) {
 
 app.get("/api/short", async (req, res) => {
     const full_link = req.query.link;
-    var short_link_id;
+    const custom = req.query.custom;
+    var short_link_id, foundLink;
     if (isValidHttpUrl(full_link)) {
-        const foundLink = await Link.findOne({ full: full_link });
-        if (foundLink !== null) {
-            short_link_id = foundLink.short;
+        if (custom !== "") {
+            if (custom.search("/") === -1) {
+                foundLink = await Link.findOne({ short: custom });
+                if (foundLink !== null) {
+                    if (foundLink.full === full_link) {
+                        res.send({ full_link: foundLink.full, short_link: hostURL + foundLink.short, error_msg: null });
+                    } else {
+                        res.send({ full_link: full_link, short_link: null, error_msg: "The custom path " + custom + " is unavailable." });
+                    }
+                } else {
+                    short_link_id = custom;
+                    const newLink = new Link({ full: full_link, short: short_link_id });
+                    await newLink.save();
+                    res.send({ full_link: full_link, short_link: hostURL + short_link_id, error_msg: null });
+                }
+            } else {
+                res.send({ full_link: full_link, short_link: null, error_msg: "The custom path should not contain /" });
+            }
         } else {
-            short_link_id = nanoid(9);
-            const newLink = new Link({ full: full_link, short: short_link_id });
-            await newLink.save();
+            foundLink = await Link.findOne({ full: full_link });
+            if (foundLink !== null) {
+                short_link_id = foundLink.short;
+            } else {
+                short_link_id = nanoid(9);
+                const newLink = new Link({ full: full_link, short: short_link_id });
+                await newLink.save();
+            }
+            res.send({ full_link: full_link, short_link: hostURL + short_link_id, error_msg: null });
         }
-        res.send({ full_link: full_link, short_link: hostURL + short_link_id, error_msg: null });
     }
     else {
         res.send({ full_link: full_link, short_link: null, error_msg: "The link is not valid" });
@@ -63,4 +84,4 @@ app.get("/:short", async function (req, res) {
 
 app.listen(port, () => {
     console.log("Listening on port " + port);
-})
+});

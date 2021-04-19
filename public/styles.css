@@ -51,16 +51,27 @@ button {
   height: 60px;
   vertical-align: middle;
   text-align: center;
+  box-shadow: none !important;
+  border-radius: 0px;
+  border: 1px solid black;
+  outline: 0;
+}
+
+input {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .btn {
   background-color: #f2f4f3;
   color: #0a0908;
   font-size: 1rem;
+  border-radius: 0px;
+  border: 1px solid black;
 }
 
 button:hover {
-  background-color: #b8bbba;
+  background-color: #cfcfcf;
 }
 
 .input-section,
@@ -79,6 +90,8 @@ button:hover {
   color: rgb(172, 26, 70);
   line-height: 60px;
   padding: 0;
+  border-radius: 0px;
+  border: 1px solid black;
 }
 
 .redir-btn {
@@ -89,4 +102,9 @@ button:hover {
   line-height: 60px;
   padding: 0 20px;
   align-self: center;
+}
+
+.redir-btn:hover {
+  background-color: #272626;
+  color: #f2f4f3;
 }
